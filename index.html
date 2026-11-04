@@ -2,7 +2,8 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#07030f">
 <title>CYBER-TANK ARENA : AI EVOLUTION</title>
 <style>
   :root {
@@ -73,6 +74,44 @@
   #notes b { color: var(--gold); }
   #notes ul { margin: 4px 0 6px 16px; padding: 0; }
   .legend { display: flex; gap: 10px; font-size: 11px; margin-top: 4px; flex-wrap: wrap; }
+  /* ---------- responsive ---------- */
+  /* tactile : cibles plus grandes, 16px dans les <select> pour éviter le zoom automatique d'iOS */
+  @media (pointer: coarse) {
+    button, select { min-height: 40px; padding: 8px 12px; font-size: 14px; }
+    select { font-size: 16px; }
+    #timeline { height: 32px; }
+  }
+  /* téléphone / tablette en portrait : tout en colonne, l'arène reste visible en haut pendant qu'on défile */
+  @media (max-width: 900px) and (orientation: portrait) {
+    html { overflow-y: auto; height: auto; }
+    body { overflow: visible; height: auto; min-height: 100%; } /* body ne doit pas être un conteneur de défilement, sinon le sticky ne marche pas */
+    header { height: auto; min-height: 46px; padding: 8px 12px; gap: 8px; flex-wrap: wrap; }
+    h1 { font-size: 15px; letter-spacing: 2px; }
+    .status { font-size: 11px; letter-spacing: 1px; }
+    main { flex-direction: column; height: auto; }
+    #stage { position: sticky; top: 0; z-index: 20; padding: 8px 8px 6px; background: rgba(7, 3, 15, 0.94); border-bottom: 1px solid var(--line); flex: none; }
+    #wrap { height: auto; width: min(calc(100vw - 16px), 50vh); }
+    #transport { width: min(calc(100vw - 16px), 50vh); margin-top: 6px; gap: 6px; }
+    #tickLbl { min-width: 0; font-size: 10px; }
+    #banner { font-size: 26px; letter-spacing: 3px; }
+    #banner small { font-size: 11px; letter-spacing: 2px; }
+    aside { width: 100%; border-left: none; overflow: visible; padding: 10px 10px 30px; }
+    .row { gap: 8px; }
+    #feed { max-height: none; }
+    #notes { font-size: 13px; }
+    table { font-size: 10px; }
+  }
+  /* téléphone en paysage (écran bas) : arène à gauche, panneau compact à droite */
+  @media (max-height: 520px) and (orientation: landscape) {
+    header { height: 34px; padding: 0 12px; }
+    h1 { font-size: 14px; letter-spacing: 2px; }
+    main { height: calc(100% - 34px); }
+    #stage { padding: 6px; }
+    #wrap { height: min(calc(100vh - 90px), calc(100vw - 330px)); }
+    #transport { width: min(calc(100vh - 90px), calc(100vw - 330px)); margin-top: 4px; }
+    aside { width: 310px; padding: 8px; }
+    #banner { font-size: 30px; letter-spacing: 4px; }
+  }
   .legend span::before { content: ''; display: inline-block; width: 10px; height: 3px; margin-right: 4px; vertical-align: middle; background: currentColor; box-shadow: 0 0 6px currentColor; }
 </style>
 </head>
