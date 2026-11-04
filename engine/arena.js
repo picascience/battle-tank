@@ -22,7 +22,8 @@
     DASH_CD: 180, DASH_IMPULSE: 9,
     BULLET_SPEED: 8, BULLET_R: 4, BULLET_DMG: 10, BULLET_LIFE: 170, BULLET_BOUNCES: 1,
     OBSTACLE_HP: 200, VISION: 700, BULLET_SENSE: 450,
-    STORM_START_R: 720, STORM_END_R: 50, STORM_DMG: 0.35, RECENT_WINDOW: 90
+    STORM_START_R: 720, STORM_END_R: 50, STORM_DMG: 0.35, RECENT_WINDOW: 90,
+    CRATE_HEAL: 50, CRATE_R: 16     // caisse de soin
   });
 
   // ---------- utilitaires ----------
@@ -92,6 +93,7 @@
       // délai de tempête (modifiable en cours de match) et alliances (équipe -1 = en solo)
       this.maxTicks = CFG.MAX_TICKS; this.hardCap = CFG.HARD_CAP;
       this.teams = (opts.bots || []).map((b, i) => (opts.teams && Number.isInteger(opts.teams[i]) ? opts.teams[i] : -1));
+      this.crate = null; this.pending = []; this.crateSeek = opts.crateSeek !== false;
       this.bullets = []; this.nextBulletId = 1;
       this.events = []; this.frames = this.record ? [] : null;
       this.deathOrder = []; this.totalHits = 0; this.totalDamage = 0;
@@ -124,6 +126,35 @@
       const t = this.tanks[id]; if (!t || !t.alive || this.over) return 0;
       const before = t.hp; t.hp = Math.min(CFG.MAX_HP, t.hp + (amount === undefined ? 50 : amount));
       return t.hp - before;
+    }
+    /** fait apparaître une caisse de soin à un endroit libre ; false s'il y en a déjà une */
+    spawnCrate() {
+      if (this.crate || this.over) return false;
+      const z = this.zone(), m = 110;
+      for (let n = 0; n < 80; n++) {
+        const x = m + this.rng() * (CFG.W - 2 * m), y = m + this.rng() * (CFG.H - 2 * m);
+        if (Math.hypot(x - z.x, y - z.y) > z.r - 70) continue;
+        if (this.obstacles.some((o) => o.alive && Math.hypot(x - o.x, y - o.y) < o.r + 45)) continue;
+        if (this.tanks.some((t) => t.alive && Math.hypot(x - t.x, y - t.y) < 120)) continue;
+        this.crate = { x: r1(x), y: r1(y), heal: CFG.CRATE_HEAL };
+        this.pending.push({ k: 'crateSpawn', x: this.crate.x, y: this.crate.y });
+        return true;
+      }
+      return false;
+    }
+    /** pilotage vers la caisse : remplace le déplacement du bot (tir, visée et dash restent les siens) */
+    seekCrate(t, a) {
+      const c = this.crate; let tx = c.x, ty = c.y;
+      for (const o of this.obstacles) { // contournement d'un obstacle sur la trajectoire
+        if (!o.alive || segPointDist(t.x, t.y, c.x, c.y, o.x, o.y) >= o.r + CFG.TANK_R + 6) continue;
+        const dx = c.x - t.x, dy = c.y - t.y, l2 = dx * dx + dy * dy || 1;
+        const u = clamp(((o.x - t.x) * dx + (o.y - t.y) * dy) / l2, 0, 1);
+        let vx = o.x - (t.x + dx * u), vy = o.y - (t.y + dy * u), vl = Math.hypot(vx, vy);
+        if (vl < 1) { vx = -dy; vy = dx; vl = Math.hypot(vx, vy) || 1; }
+        const k = o.r + CFG.TANK_R + 35; tx = o.x - vx / vl * k; ty = o.y - vy / vl * k; break;
+      }
+      const diff = wrapAngle(Math.atan2(ty - t.y, tx - t.x) - t.angle);
+      return Object.assign({}, a, { turnChassis: clamp(diff / CFG.CHASSIS_TURN, -1, 1), throttle: Math.abs(diff) < 1.0 ? 1 : 0.25 });
     }
     /** repousse l'arrivée de la tempête (en ticks) */
     delayStorm(ticks) { this.maxTicks += ticks; this.hardCap += ticks; }
@@ -175,6 +206,7 @@
           hp: t.hp, maxHp: CFG.MAX_HP, energy: t.energy, maxEnergy: CFG.MAX_ENERGY, shootCd: t.shootCd, dashCd: t.dashCd,
           radius: CFG.TANK_R, recentDamage: this.recentDamage(t), lastHitBy: t.lastHitBy, lastHitTick: t.lastHitTick,
           traits: t.traits, ramCd: t.ramCd, team: this.teams[t.id] },
+        crate: this.crate ? { x: this.crate.x, y: this.crate.y, heal: this.crate.heal } : null,
         enemies, allies, bullets, obstacles, zone: this.zone(),
         aliveCount: this.tanks.filter((x) => x.alive).length,
         random: t.rng, memory: t.memory
@@ -185,7 +217,7 @@
 
     step() {
       if (this.over) return;
-      this.events = [];
+      this.events = this.pending; this.pending = [];
       const tanks = this.tanks;
       // 1) décisions (toutes prises sur le même instant)
       const actions = tanks.map((t) => {
@@ -197,7 +229,7 @@
       // 2) application des commandes
       for (const t of tanks) {
         if (!t.alive) continue;
-        const a = actions[t.id];
+        const a = this.crate && this.crateSeek ? this.seekCrate(t, actions[t.id]) : actions[t.id];
         const throttle = clamp(num(a.throttle, 0), -1, 1);
         t.angle = wrapAngle(t.angle + clamp(num(a.turnChassis, 0), -1, 1) * CFG.CHASSIS_TURN);
         t.turretAngle = wrapAngle(t.turretAngle + clamp(num(a.aimTurret, 0), -1, 1) * CFG.TURRET_TURN);
@@ -255,6 +287,20 @@
             rammer.stats.rams++; rammer.ramCd = 30;
             victim.vx += nx * sgn * 4; victim.vy += ny * sgn * 4; // recul
           }
+        }
+      }
+      // 3b) ramassage de la caisse de soin : le tank le plus proche au contact l'emporte
+      if (this.crate) {
+        let best = null, bd = Infinity;
+        for (const t of tanks) {
+          if (!t.alive) continue;
+          const d = Math.hypot(t.x - this.crate.x, t.y - this.crate.y);
+          if (d < R + CFG.CRATE_R && d < bd) { best = t; bd = d; }
+        }
+        if (best) {
+          const got = Math.min(CFG.MAX_HP, best.hp + this.crate.heal) - best.hp; best.hp += got;
+          this.emit({ k: 'pickup', id: best.id, x: this.crate.x, y: this.crate.y, heal: r1(got) });
+          this.crate = null;
         }
       }
       // 4) projectiles
@@ -397,6 +443,7 @@
         o: this.obstacles.map((o) => (o.alive ? o.hp : 0)),
         z: Math.round(this.zone().r)
       };
+      if (this.crate) f.c = [this.crate.x, this.crate.y];
       if (this.maxTicks !== CFG.MAX_TICKS) f.m = this.maxTicks;
       if (this.teams.some((x) => x >= 0)) f.tm = this.teams.slice();
       if (this.events.length) f.e = this.events;

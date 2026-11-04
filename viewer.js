@@ -135,6 +135,8 @@
       storm: () => { [0, 0.28, 0.56].forEach((d) => { tone({ type: 'sawtooth', f0: 880, dur: 0.18, vol: 0.14, delay: d }); tone({ type: 'sawtooth', f0: 660, dur: 0.18, vol: 0.14, delay: d + 0.14 }); }); },
       win: () => { [523, 659, 784, 1047].forEach((f, i) => { tone({ type: 'square', f0: f, dur: 0.25, vol: 0.12, delay: i * 0.13 }); tone({ type: 'sine', f0: f / 2, dur: 0.3, vol: 0.14, delay: i * 0.13 }); }); },
       heal: () => { [440, 554, 659, 880].forEach((f, i) => tone({ type: 'sine', f0: f, dur: 0.22, vol: 0.14, delay: i * 0.07 })); },
+      crateSpawn: (e) => { tone({ type: 'sine', f0: 300, f1: 1200, dur: 0.4, vol: 0.14, x: e.x }); tone({ type: 'triangle', f0: 1200, dur: 0.12, vol: 0.12, delay: 0.38, x: e.x }); },
+      pickup: (e) => { [523, 659, 784, 1047].forEach((f, i) => tone({ type: 'sine', f0: f, dur: 0.2, vol: 0.15, delay: i * 0.06, x: e.x })); noise({ ftype: 'highpass', fq0: 5000, dur: 0.12, vol: 0.08, x: e.x }); },
       ally: () => { tone({ type: 'triangle', f0: 523, dur: 0.14, vol: 0.12 }); tone({ type: 'triangle', f0: 784, dur: 0.22, vol: 0.12, delay: 0.1 }); },
       delay: () => { tone({ type: 'sine', f0: 900, f1: 300, dur: 0.35, vol: 0.12 }); tone({ type: 'sine', f0: 450, f1: 150, dur: 0.35, vol: 0.1, delay: 0.1 }); },
       click: () => tone({ type: 'sine', f0: 700, f1: 500, dur: 0.05, vol: 0.08 }),
@@ -213,6 +215,13 @@
           shake = 34; flash = 0.55;
           break;
         }
+        case 'crateSpawn':
+          rings.push({ x: e.x, y: e.y, r: 10, life: 1.2, color: '#7dff7a' }); burst(e.x, e.y, '#7dff7a', 20, 2.5, 0.04);
+          texts.push({ x: e.x, y: e.y - 34, txt: '✚ CAISSE DE SOIN', color: '#7dff7a', life: 1.6 }); break;
+        case 'pickup':
+          burst(e.x, e.y, '#7dff7a', 30, 3.5, 0.04); burst(e.x, e.y, '#ffffff', 10, 2.5, 0.07);
+          rings.push({ x: e.x, y: e.y, r: 8, life: 1, color: '#7dff7a' }); hitFlash[e.id] = 0.6;
+          texts.push({ x: e.x, y: e.y - 28, txt: '+' + Math.round(e.heal) + ' PV — ' + src.meta.bots[e.id].name, color: '#7dff7a', life: 1.5 }); break;
         case 'storm': texts.push({ x: W / 2, y: H / 2, txt: '⚠ TEMPÊTE — LA ZONE SE REFERME', color: '#ff2a6d', life: 2.2, big: true }); break;
       }
     }
@@ -316,6 +325,17 @@
     for (const g of ghosts) { ctx.globalAlpha = g.life * 0.35; drawTank(g.x, g.y, g.a, g.ta, g.color, 0, true); }
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
 
+    // caisse de soin
+    if (f.c) {
+      const pulse = 0.5 + 0.5 * Math.sin(performance.now() / 200);
+      ctx.save(); ctx.translate(f.c[0], f.c[1]);
+      ctx.shadowColor = '#7dff7a'; ctx.shadowBlur = 18 + pulse * 14;
+      ctx.fillStyle = 'rgba(10, 30, 14, 0.95)'; ctx.strokeStyle = '#7dff7a'; ctx.lineWidth = 3;
+      roundRect(-15, -15, 30, 30, 5); ctx.fill(); ctx.stroke();
+      ctx.shadowBlur = 0; ctx.fillStyle = '#7dff7a'; ctx.fillRect(-3.5, -10, 7, 20); ctx.fillRect(-10, -3.5, 20, 7);
+      ctx.globalAlpha = 0.5 * (1 - pulse); ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 0, 22 + pulse * 14, 0, Math.PI * 2); ctx.stroke();
+      ctx.restore();
+    }
     // liens d'alliance
     if (f.tm) {
       ctx.globalCompositeOperation = 'lighter'; ctx.lineWidth = 2; ctx.setLineDash([4, 8]); ctx.lineDashOffset = -performance.now() / 40;
@@ -439,6 +459,12 @@
   function refreshLast() { // répercute l'état du moteur sur la dernière image (utile en pause)
     const s = src.match.snapshot(), L = src.frames[src.frames.length - 1];
     L.k = s.k; L.z = s.z; if (s.tm) L.tm = s.tm; else delete L.tm; if (s.m) L.m = s.m; else delete L.m;
+    if (s.c) L.c = s.c; else delete L.c;
+  }
+  function spawnCrate() {
+    if (!src || src.kind !== 'live' || src.match.over) return;
+    if (!src.match.spawnCrate()) { texts.push({ x: W / 2, y: H / 2 - 60, txt: 'Une caisse est déjà en jeu', color: '#ffc400', life: 1.2 }); return; }
+    refreshLast();
   }
   function applyTeams() {
     if (!src) return;
@@ -581,6 +607,7 @@
   $('allyDuel').onclick = () => { teamSel = [0, 0, 1, 1]; applyTeams(); };
   $('allyNone').onclick = () => { teamSel = [-1, -1, -1, -1]; applyTeams(); };
   $('healAll').onclick = () => { if (src && src.kind === 'live') src.match.tanks.forEach((t) => healTank(t.id)); };
+  $('crateBtn').onclick = spawnCrate;
   $('storm10').onclick = () => delayStorm(10);
   $('storm30').onclick = () => delayStorm(30);
   $('playBtn').onclick = () => { playing = !playing; $('playBtn').textContent = playing ? '❚❚' : '▶'; };
