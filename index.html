@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CYBER-TANK ARENA : AI EVOLUTION</title>
+<style>
+  :root {
+    --bg: #07030f; --panel: rgba(18, 8, 38, 0.78); --line: rgba(255, 42, 220, 0.28);
+    --pink: #ff2a6d; --cyan: #00f0ff; --violet: #b44dff; --gold: #ffc400; --text: #e9e1ff; --muted: #8f7fb8;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font-family: 'Segoe UI', 'Consolas', monospace; overflow: hidden; }
+  body::before { /* soleil synthwave + horizon */
+    content: ''; position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse at 50% 120%, rgba(255, 42, 109, 0.35), transparent 55%),
+      radial-gradient(ellipse at 10% -10%, rgba(0, 240, 255, 0.16), transparent 45%),
+      linear-gradient(180deg, #0b0420 0%, #07030f 60%);
+  }
+  body::after { /* scanlines */
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0 1px, transparent 1px 3px); mix-blend-mode: multiply;
+  }
+  header { height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px; border-bottom: 1px solid var(--line);
+    background: linear-gradient(90deg, rgba(255,42,109,0.12), rgba(0,240,255,0.08)); }
+  h1 { margin: 0; font-size: 22px; letter-spacing: 4px; font-weight: 800; text-transform: uppercase;
+    background: linear-gradient(90deg, var(--pink), var(--violet), var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 8px rgba(255, 42, 220, 0.6)); }
+  h1 span { color: var(--cyan); -webkit-text-fill-color: var(--cyan); }
+  .status { font-size: 12px; color: var(--muted); letter-spacing: 2px; }
+  main { display: flex; height: calc(100% - 58px); }
+  #stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 14px; min-width: 0; }
+  #wrap { position: relative; height: min(calc(100vh - 150px), calc(100vw - 470px)); aspect-ratio: 1; }
+  canvas#arena { width: 100%; height: 100%; display: block; border: 1px solid rgba(0, 240, 255, 0.5); border-radius: 6px;
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.35), 0 0 60px rgba(255, 42, 220, 0.18), inset 0 0 30px rgba(0,0,0,0.6); background: #05020c; }
+  #banner { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; flex-direction: column;
+    font-size: 54px; font-weight: 900; letter-spacing: 8px; opacity: 0; transition: opacity .4s; text-transform: uppercase; text-align: center; }
+  #banner small { font-size: 15px; letter-spacing: 4px; color: var(--text); margin-top: 6px; }
+  #banner.show { opacity: 1; }
+  #transport { width: min(calc(100vh - 150px), calc(100vw - 470px)); display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  #timeline { flex: 1; accent-color: var(--pink); }
+  #tickLbl { font-size: 12px; color: var(--muted); min-width: 140px; text-align: right; font-family: Consolas, monospace; }
+  aside { width: 420px; overflow-y: auto; padding: 12px 14px 20px; border-left: 1px solid var(--line); background: rgba(8, 3, 20, 0.6); }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px;
+    box-shadow: inset 0 0 18px rgba(180, 77, 255, 0.08); }
+  .panel h2 { margin: 0 0 8px; font-size: 11px; letter-spacing: 3px; color: var(--cyan); text-transform: uppercase; text-shadow: 0 0 6px rgba(0,240,255,.7); }
+  .row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  button, select { background: rgba(255, 42, 220, 0.08); color: var(--text); border: 1px solid rgba(255, 42, 220, 0.45); border-radius: 4px;
+    padding: 6px 10px; font: inherit; font-size: 12px; cursor: pointer; letter-spacing: 1px; transition: all .15s; }
+  button:hover { background: rgba(255, 42, 220, 0.25); box-shadow: 0 0 10px rgba(255, 42, 220, 0.5); }
+  button.on { background: var(--pink); color: #12001a; font-weight: 700; box-shadow: 0 0 14px rgba(255, 42, 109, 0.8); }
+  button.cy { border-color: rgba(0,240,255,.6); background: rgba(0,240,255,.08); }
+  button.cy:hover { background: rgba(0,240,255,.25); box-shadow: 0 0 10px rgba(0,240,255,.6); }
+  select option { background: #12062a; }
+  .tank { padding: 7px 8px; border-radius: 6px; margin-bottom: 6px; border-left: 3px solid; background: rgba(255,255,255,0.03); }
+  .tank.dead { opacity: .35; filter: grayscale(.6); }
+  .tank .top { display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+  .tank .top small { font-weight: 400; color: var(--muted); font-size: 11px; }
+  .bar { height: 7px; background: rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; margin-top: 4px; position: relative; }
+  .bar i { display: block; height: 100%; border-radius: 4px; transition: width .12s; }
+  .bars { display: grid; grid-template-columns: 34px 1fr; gap: 0 6px; align-items: center; font-size: 10px; color: var(--muted); }
+  .mini { font-size: 11px; color: var(--muted); margin-top: 4px; font-family: Consolas, monospace; }
+  #feed { font-size: 12px; max-height: 110px; overflow: hidden; font-family: Consolas, monospace; }
+  #feed div { padding: 2px 0; border-bottom: 1px dashed rgba(255,255,255,0.06); }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: Consolas, monospace; }
+  th, td { padding: 3px 4px; text-align: right; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--muted); font-weight: 400; }
+  td.best { font-weight: 700; text-shadow: 0 0 6px currentColor; }
+  #chart { width: 100%; height: 190px; display: block; }
+  #notes { font-size: 12px; line-height: 1.45; color: #cfc3f0; }
+  #notes b { color: var(--gold); }
+  #notes ul { margin: 4px 0 6px 16px; padding: 0; }
+  .legend { display: flex; gap: 10px; font-size: 11px; margin-top: 4px; flex-wrap: wrap; }
+  .legend span::before { content: ''; display: inline-block; width: 10px; height: 3px; margin-right: 4px; vertical-align: middle; background: currentColor; box-shadow: 0 0 6px currentColor; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cyber-Tank Arena <span>:</span> AI Evolution</h1>
+  <div class="status" id="status">INITIALISATION…</div>
+</header>
+<main>
+  <section id="stage">
+    <div id="wrap">
+      <canvas id="arena" width="1000" height="1000"></canvas>
+      <div id="banner"></div>
+    </div>
+    <div id="transport">
+      <button id="playBtn" class="cy">❚❚</button>
+      <button id="muteBtn" class="cy" title="Bruitages on/off">🔊</button>
+      <input type="range" id="timeline" min="0" max="0" value="0">
+      <div id="tickLbl">t=0</div>
+    </div>
+  </section>
+  <aside>
+    <div class="panel">
+      <h2>Mode</h2>
+      <div class="row" style="margin-bottom:8px">
+        <span style="font-size:12px;color:var(--muted)">IA :</span>
+        <select id="botGen"><option value="latest">Dernière version</option></select>
+        <button id="liveBtn">⚡ Match live</button>
+      </div>
+      <div class="row" id="replayBtns"><span style="font-size:12px;color:var(--muted)">Replays :</span></div>
+    </div>
+    <div class="panel liveCtl">
+      <h2>Commandes live</h2>
+      <div class="row" style="margin-bottom:6px"><span style="font-size:12px;color:var(--muted)">Alliances :</span>
+        <button id="allyDuel" title="1er+2e contre 3e+4e">⚑ 2 vs 2</button><button id="allyNone">Tous solo</button></div>
+      <div class="row" style="margin-bottom:6px"><span style="font-size:12px;color:var(--muted)">Soin :</span>
+        <button id="healAll" title="Rend 50 PV à chaque tank vivant">✚ Soigner tous</button></div>
+      <div class="row"><span style="font-size:12px;color:var(--muted)">Tempête :</span>
+        <button id="storm10">⏳ +10 s</button><button id="storm30">⏳ +30 s</button></div>
+      <div class="mini" id="liveHint" style="margin-top:6px"></div>
+    </div>
+    <div class="panel">
+      <h2>Vitesse de lecture</h2>
+      <div class="row" id="speeds"></div>
+    </div>
+    <div class="panel">
+      <h2 id="matchTitle">Combattants</h2>
+      <div id="tanks"></div>
+      <div class="mini" id="matchInfo"></div>
+    </div>
+    <div class="panel">
+      <h2>Kill feed</h2>
+      <div id="feed"></div>
+    </div>
+    <div class="panel">
+      <h2>Évolution du winrate</h2>
+      <canvas id="chart" width="780" height="380"></canvas>
+      <div class="legend" id="legend"></div>
+      <div style="margin-top:8px"><table id="wrTable"></table></div>
+    </div>
+    <div class="panel">
+      <h2>Journal de l'ingénieur</h2>
+      <div id="notes">Chargement du rapport…</div>
+    </div>
+  </aside>
+</main>
+<script src="engine/arena.js"></script>
+<script src="viewer.js"></script>
+</body>
+</html>

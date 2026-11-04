@@ -1,0 +1,42 @@
+{
+  "1": {
+    "analysis": "Méta dominée par le Trickster (49 %) malgré 1305 auto-impacts : ses tirs par la bande touchent des cibles qui ne voient pas venir la balle. <b>Berserker (0,4 %)</b> : charge en ligne droite, la cible idéale pour la visée anticipée (2518 impacts du Sniper, 5,6 s de survie), dash gaspillé pour combler la distance, 502 auto-impacts à bout portant. <b>Sniper (16 %)</b> : meilleure précision (43 %) mais 19 tirs/match seulement (seuil d'énergie 50 + tolérance fixe), immobile derrière ses couvertures et sans aucune esquive (0,4 dash/match) — le Warlord l'arrose (1964 impacts).",
+    "changes": [
+      "Berserker Gen 2 : champs de potentiel artificiels (attraction cible, répulsion balles/obstacles/murs), approche en serpentin + circle-strafe à 150 px",
+      "Berserker Gen 2 : dash réservé à l'esquive, tir seulement en ligne de vue dégagée, interception quadratique exacte",
+      "Sniper Gen 2 : prédiction quadratique (interception exacte + accélération estimée et amortie)",
+      "Sniper Gen 2 : tolérance de tir = taille angulaire réelle de la cible, kiting latéral à ~470 px, esquive par champ de potentiel + dash"
+    ]
+  },
+  "2": {
+    "analysis": "La méta bascule : le <b>Sniper Gen 2</b> passe de 16 % à 48,8 % (tirs x2, esquives x3, survie 21 s). Le Trickster recule (49 % → 33 %) : les cibles mobiles rendent ses bandes moins fiables. Le <b>Warlord (34 % → 14,4 %)</b> s'effondre : le Sniper kite à distance sans jamais 'entrer en duel', donc le Warlord ne riposte presque pas, et son orbite autour du centre est prévisible (1651 impacts du Sniper, 1740 du Trickster, précision 16 %). Le <b>Berserker (2,4 %)</b> esquive bien mieux (11,8/match, survie x2) mais reste le premier focus : en fonçant dès le spawn il est l'ennemi le plus proche de tout le monde (placement moyen 3,29).",
+    "changes": [
+      "Warlord & Berserker Gen 3 : planificateur local par échantillonnage (33 positions/tick) — danger balistique, exposition aux lignes de vue, portée, tempête, inertie",
+      "Warlord Gen 3 : détection de duel réelle (tourelle d'un ennemi pointée sur un autre tank), riposte immédiate, interception quadratique, rafales d'énergie, mode survie < 35 PV",
+      "Berserker Gen 3 'Stalker' : phase de traque hors des lignes de vue puis engagement total quand la proie est affaiblie/en duel et qu'aucun 3e tank ne surveille",
+      "Esquive par dash en vitesse relative (balle − tank) pour les deux"
+    ]
+  },
+  "3": {
+    "analysis": "Le <b>Warlord Gen 3</b> domine (14 % → 65 %) : meilleur placement (1,54), le moins de dégâts reçus (58/match), le plus de kills (1,2/match) — le tiers-partying fonctionne enfin (263 éliminations du Berserker, 186 du Sniper). Le <b>Berserker Gen 3</b> progresse en continu (0,4 → 2,4 → 4 %, survie 5,6 → 12,5 → 21 s, placement 3,66 → 2,98) : il n'est plus le premier à mourir, mais son archétype corps-à-corps reste puni par trois IA qui tirent à distance. Le <b>Trickster Gen 1</b>, jamais modifié, s'effondre (49 % → 7,6 %) : 1926 auto-impacts, 157 morts sans tueur (ses propres rebonds ou la tempête), précision 10,7 %. Prochaine cible logique pour une Gen 4 : le Trickster (n'accepter une bande que si le retour de la balle ne croise pas sa propre trajectoire) et le Berserker.",
+    "changes": [
+      "Trickster Gen 4 'Ray-Tracer' : simulation balistique complète de chaque angle candidat (direct + 4 bandes + perturbations) contre la position future de la cible",
+      "Trickster Gen 4 : refus de tout tir dont le rebond repasse près de lui ; gâchette vérifiée sur l'angle réel du canon ; planificateur qui cherche les positions hors lignes de vue et tire par la bande depuis la couverture",
+      "Berserker Gen 4 : coût de bord dans le planificateur (70 % des impacts reçus près d'un mur), gâchette vérifiée par simulation balistique, tourelle furtive en traque",
+      "Berserker Gen 4, testé puis rejeté : traque lointaine à 620 px, 'vendetta' contre le dernier agresseur (classement moyen 3,21 → 3,40)"
+    ]
+  },
+  "4": {
+    "analysis": "Le <b>Trickster Gen 4</b> reprend le trône (7,6 % → 63,8 %) : auto-impacts divisés par 35 (1926 → 54), le moins de dégâts reçus (66/match), la meilleure survie (32 s). Il gagne surtout en restant à couvert et en survivant jusqu'à la tempête (29 dégâts de tempête/match) ; sa précision brute reste basse (12,5 %) car il tire beaucoup de bandes longues. Le <b>Warlord Gen 3</b> retombe à 22 % et le <b>Sniper Gen 2</b> à 13 %. Le <b>Berserker Gen 4</b> plafonne à 0,4 % : mesuré contre le Berserker Gen 3 sur les mêmes 200 seeds, il améliore son classement moyen (3,52 → 3,21) et sa survie (20,8 → 24,3 s), mais il meurt encore presque toujours avant la tempête (25 s). Avec des armes identiques pour tous, l'archétype corps-à-corps est structurellement désavantagé : il faudrait sans doute un avantage de gameplay propre (blindage frontal, dégâts au contact) plutôt qu'un meilleur algorithme.",
+    "changes": [
+      "Moteur : système de traits de châssis déclarés par chaque bot, bornés par le moteur (blindage frontal ≤ 50 %, éperon ≤ 8 + bonus de vitesse, durée de vie des balles ≥ 60 ticks). Sans traits, le moteur reproduit la Gen 4 au tick près",
+      "Berserker Gen 5 'Juggernaut' : blindage frontal 50 %, éperon 6 (max 20 à pleine vitesse), contrepartie canon court (balles de 70 ticks, ~560 px)",
+      "Berserker Gen 5 : marche avant forcée en engagement, charge de contact sous 160 px, dash-bélier, avant blindé tourné vers la menace à l'arrêt",
+      "Testé puis rejeté : engagement précoce dès qu'un seul tank surveille (classement 2,92 → 3,19)"
+    ]
+  },
+  "5": {
+    "analysis": "Première génération avec des <b>traits de châssis</b> (seul le Berserker en utilise). Le <b>Berserker Juggernaut</b> passe de 0,4 % à 4,0 % et surtout de la 4e à la 3e place au classement moyen (3,24 → 2,83, devant le Sniper à 2,92). Il est 2e en kills (0,86/match) et le premier tueur du Sniper (186 éliminations). Son blindage absorbe 42 PV par match, et il éperonne 0,41 fois par match. Il meurt encore dans 99 % des matchs (99,9 dégâts reçus/match) : il pèse sur le match, mais le gagne rarement. Le <b>Trickster Gen 4</b> reste en tête (57,6 %), légèrement freiné. Attention : la comparaison avec les Gen 1 à 4 n'est pas à règles constantes, puisque ce sont les règles du Berserker qui ont changé, pas seulement son code.",
+    "changes": []
+  }
+}

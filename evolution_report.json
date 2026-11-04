@@ -1,0 +1,808 @@
+{
+  "title": "CYBER-TANK ARENA : AI EVOLUTION",
+  "generations": [
+    {
+      "gen": 1,
+      "matches": 500,
+      "date": "2026-11-04T16:01:23.562Z",
+      "simSeconds": 3.699,
+      "avgTicks": 1336.008,
+      "endReasons": {
+        "last-standing": 500
+      },
+      "draws": 0,
+      "ranking": [
+        "trickster",
+        "warlord",
+        "sniper",
+        "berserker"
+      ],
+      "stats": {
+        "trickster": {
+          "name": "Trickster",
+          "color": "#b44dff",
+          "version": "gen1",
+          "winrate": 0.492,
+          "avgPlacement": 2.01,
+          "accuracy": 0.30572377417464347,
+          "avgDamage": 93.9,
+          "avgDamageTaken": 70.96650933333333,
+          "avgKills": 0.956,
+          "avgDodges": 7.548,
+          "avgSurvival": 1044.674,
+          "avgShots": 30.714,
+          "bankHits": 3659,
+          "selfHits": 1305,
+          "avgStormDamage": 0.3465093333333333,
+          "stormDeaths": 3,
+          "avgDashes": 3.592,
+          "errors": 0,
+          "killedBy": {
+            "tempête/aucun": 82,
+            "warlord": 81,
+            "berserker": 58,
+            "sniper": 33
+          },
+          "hitsTakenBy": {
+            "sniper": 318,
+            "warlord": 485,
+            "berserker": 1423
+          }
+        },
+        "warlord": {
+          "name": "Warlord",
+          "color": "#ffc400",
+          "version": "gen1",
+          "winrate": 0.344,
+          "avgPlacement": 1.784,
+          "accuracy": 0.24,
+          "avgDamage": 64.56,
+          "avgDamageTaken": 83.91878966666667,
+          "avgKills": 0.98,
+          "avgDodges": 6.328,
+          "avgSurvival": 1284.748,
+          "avgShots": 26.9,
+          "bankHits": 511,
+          "selfHits": 213,
+          "avgStormDamage": 3.0187896666666667,
+          "stormDeaths": 24,
+          "avgDashes": 4.454,
+          "errors": 0,
+          "killedBy": {
+            "trickster": 214,
+            "sniper": 79,
+            "tempête/aucun": 31,
+            "berserker": 4
+          },
+          "hitsTakenBy": {
+            "sniper": 1256,
+            "trickster": 2286,
+            "berserker": 290
+          }
+        },
+        "sniper": {
+          "name": "Sniper",
+          "color": "#00f0ff",
+          "version": "gen1",
+          "winrate": 0.16,
+          "avgPlacement": 2.54,
+          "accuracy": 0.4302839116719243,
+          "avgDamage": 81.84,
+          "avgDamageTaken": 93.06701533333333,
+          "avgKills": 0.578,
+          "avgDodges": 3.65,
+          "avgSurvival": 914.792,
+          "avgShots": 19.02,
+          "bankHits": 354,
+          "selfHits": 44,
+          "avgStormDamage": 1.1470153333333335,
+          "stormDeaths": 4,
+          "avgDashes": 0.374,
+          "errors": 0,
+          "killedBy": {
+            "warlord": 231,
+            "trickster": 129,
+            "berserker": 54,
+            "tempête/aucun": 6
+          },
+          "hitsTakenBy": {
+            "berserker": 1377,
+            "trickster": 1211,
+            "warlord": 1964
+          }
+        },
+        "berserker": {
+          "name": "Berserker",
+          "color": "#ff2a6d",
+          "version": "gen1",
+          "winrate": 0.004,
+          "avgPlacement": 3.662,
+          "accuracy": 0.4735632183908046,
+          "avgDamage": 61.8,
+          "avgDamageTaken": 99.94,
+          "avgKills": 0.232,
+          "avgDodges": 2.176,
+          "avgSurvival": 337.654,
+          "avgShots": 13.05,
+          "bankHits": 473,
+          "selfHits": 502,
+          "avgStormDamage": 0,
+          "stormDeaths": 0,
+          "avgDashes": 1.896,
+          "errors": 0,
+          "killedBy": {
+            "warlord": 178,
+            "sniper": 177,
+            "trickster": 135,
+            "tempête/aucun": 8
+          },
+          "hitsTakenBy": {
+            "sniper": 2518,
+            "warlord": 779,
+            "trickster": 1198
+          }
+        }
+      },
+      "bestMatch": {
+        "seed": 100376,
+        "file": "replays/gen_1.json",
+        "ticks": 1607,
+        "winner": "trickster",
+        "excitement": 402.6
+      },
+      "notes": {
+        "analysis": "Méta dominée par le Trickster (49 %) malgré 1305 auto-impacts : ses tirs par la bande touchent des cibles qui ne voient pas venir la balle. <b>Berserker (0,4 %)</b> : charge en ligne droite, la cible idéale pour la visée anticipée (2518 impacts du Sniper, 5,6 s de survie), dash gaspillé pour combler la distance, 502 auto-impacts à bout portant. <b>Sniper (16 %)</b> : meilleure précision (43 %) mais 19 tirs/match seulement (seuil d'énergie 50 + tolérance fixe), immobile derrière ses couvertures et sans aucune esquive (0,4 dash/match) — le Warlord l'arrose (1964 impacts).",
+        "changes": [
+          "Berserker Gen 2 : champs de potentiel artificiels (attraction cible, répulsion balles/obstacles/murs), approche en serpentin + circle-strafe à 150 px",
+          "Berserker Gen 2 : dash réservé à l'esquive, tir seulement en ligne de vue dégagée, interception quadratique exacte",
+          "Sniper Gen 2 : prédiction quadratique (interception exacte + accélération estimée et amortie)",
+          "Sniper Gen 2 : tolérance de tir = taille angulaire réelle de la cible, kiting latéral à ~470 px, esquive par champ de potentiel + dash"
+        ]
+      }
+    },
+    {
+      "gen": 2,
+      "matches": 500,
+      "date": "2026-11-04T16:03:06.719Z",
+      "simSeconds": 5.559,
+      "avgTicks": 1515.382,
+      "endReasons": {
+        "last-standing": 495,
+        "draw": 5
+      },
+      "draws": 5,
+      "ranking": [
+        "sniper",
+        "trickster",
+        "warlord",
+        "berserker"
+      ],
+      "stats": {
+        "sniper": {
+          "name": "Sniper",
+          "color": "#00f0ff",
+          "version": "gen2",
+          "winrate": 0.488,
+          "avgPlacement": 2.154,
+          "accuracy": 0.2419730846667373,
+          "avgDamage": 91.34,
+          "avgDamageTaken": 70.46440066666665,
+          "avgKills": 0.928,
+          "avgDodges": 11.644,
+          "avgSurvival": 1258.826,
+          "avgShots": 37.748,
+          "bankHits": 556,
+          "selfHits": 23,
+          "avgStormDamage": 5.044400666666665,
+          "stormDeaths": 20,
+          "avgDashes": 3.89,
+          "errors": 0,
+          "killedBy": {
+            "trickster": 78,
+            "warlord": 55,
+            "berserker": 103,
+            "tempête/aucun": 20
+          },
+          "hitsTakenBy": {
+            "berserker": 1753,
+            "trickster": 870,
+            "warlord": 625
+          }
+        },
+        "trickster": {
+          "name": "Trickster",
+          "color": "#b44dff",
+          "version": "gen1",
+          "winrate": 0.334,
+          "avgPlacement": 2.148,
+          "accuracy": 0.1924239371347975,
+          "avgDamage": 76.4,
+          "avgDamageTaken": 82.41235433333331,
+          "avgKills": 0.738,
+          "avgDodges": 14.192,
+          "avgSurvival": 1311.064,
+          "avgShots": 39.704,
+          "bankHits": 3021,
+          "selfHits": 1795,
+          "avgStormDamage": 3.5723543333333323,
+          "stormDeaths": 13,
+          "avgDashes": 4.908,
+          "errors": 0,
+          "killedBy": {
+            "sniper": 122,
+            "warlord": 54,
+            "tempête/aucun": 112,
+            "berserker": 45
+          },
+          "hitsTakenBy": {
+            "berserker": 936,
+            "sniper": 664,
+            "warlord": 547
+          }
+        },
+        "warlord": {
+          "name": "Warlord",
+          "color": "#ffc400",
+          "version": "gen1",
+          "winrate": 0.144,
+          "avgPlacement": 2.398,
+          "accuracy": 0.1601749075008409,
+          "avgDamage": 47.62,
+          "avgDamageTaken": 93.00382833333335,
+          "avgKills": 0.532,
+          "avgDodges": 6.598,
+          "avgSurvival": 1185.126,
+          "avgShots": 29.73,
+          "bankHits": 756,
+          "selfHits": 225,
+          "avgStormDamage": 1.1838283333333335,
+          "stormDeaths": 8,
+          "avgDashes": 4.254,
+          "errors": 0,
+          "killedBy": {
+            "berserker": 81,
+            "sniper": 174,
+            "trickster": 144,
+            "tempête/aucun": 29
+          },
+          "hitsTakenBy": {
+            "berserker": 975,
+            "sniper": 1651,
+            "trickster": 1740
+          }
+        },
+        "berserker": {
+          "name": "Berserker",
+          "color": "#ff2a6d",
+          "version": "gen2",
+          "winrate": 0.024,
+          "avgPlacement": 3.288,
+          "accuracy": 0.29427355232511443,
+          "avgDamage": 73.28,
+          "avgDamageTaken": 99.58,
+          "avgKills": 0.458,
+          "avgDodges": 11.786,
+          "avgSurvival": 748.02,
+          "avgShots": 24.902,
+          "bankHits": 993,
+          "selfHits": 308,
+          "avgStormDamage": 0,
+          "stormDeaths": 0,
+          "avgDashes": 3.468,
+          "errors": 0,
+          "killedBy": {
+            "sniper": 168,
+            "trickster": 147,
+            "tempête/aucun": 16,
+            "warlord": 157
+          },
+          "hitsTakenBy": {
+            "sniper": 2252,
+            "trickster": 1210,
+            "warlord": 1209
+          }
+        }
+      },
+      "bestMatch": {
+        "seed": 200077,
+        "file": "replays/gen_2.json",
+        "ticks": 2078,
+        "winner": "trickster",
+        "excitement": 373.5
+      },
+      "notes": {
+        "analysis": "La méta bascule : le <b>Sniper Gen 2</b> passe de 16 % à 48,8 % (tirs x2, esquives x3, survie 21 s). Le Trickster recule (49 % → 33 %) : les cibles mobiles rendent ses bandes moins fiables. Le <b>Warlord (34 % → 14,4 %)</b> s'effondre : le Sniper kite à distance sans jamais 'entrer en duel', donc le Warlord ne riposte presque pas, et son orbite autour du centre est prévisible (1651 impacts du Sniper, 1740 du Trickster, précision 16 %). Le <b>Berserker (2,4 %)</b> esquive bien mieux (11,8/match, survie x2) mais reste le premier focus : en fonçant dès le spawn il est l'ennemi le plus proche de tout le monde (placement moyen 3,29).",
+        "changes": [
+          "Warlord & Berserker Gen 3 : planificateur local par échantillonnage (33 positions/tick) — danger balistique, exposition aux lignes de vue, portée, tempête, inertie",
+          "Warlord Gen 3 : détection de duel réelle (tourelle d'un ennemi pointée sur un autre tank), riposte immédiate, interception quadratique, rafales d'énergie, mode survie < 35 PV",
+          "Berserker Gen 3 'Stalker' : phase de traque hors des lignes de vue puis engagement total quand la proie est affaiblie/en duel et qu'aucun 3e tank ne surveille",
+          "Esquive par dash en vitesse relative (balle − tank) pour les deux"
+        ]
+      }
+    },
+    {
+      "gen": 3,
+      "matches": 500,
+      "date": "2026-11-04T16:06:09.282Z",
+      "simSeconds": 14.53,
+      "avgTicks": 1737.456,
+      "endReasons": {
+        "last-standing": 495,
+        "draw": 5
+      },
+      "draws": 5,
+      "ranking": [
+        "warlord",
+        "sniper",
+        "trickster",
+        "berserker"
+      ],
+      "stats": {
+        "warlord": {
+          "name": "Warlord",
+          "color": "#ffc400",
+          "version": "gen3",
+          "winrate": 0.654,
+          "avgPlacement": 1.542,
+          "accuracy": 0.21161604965639547,
+          "avgDamage": 95.46,
+          "avgDamageTaken": 57.92534166666667,
+          "avgKills": 1.202,
+          "avgDodges": 14.626,
+          "avgSurvival": 1690.384,
+          "avgShots": 45.11,
+          "bankHits": 1504,
+          "selfHits": 101,
+          "avgStormDamage": 8.905341666666665,
+          "stormDeaths": 34,
+          "avgDashes": 3.942,
+          "errors": 0,
+          "killedBy": {
+            "sniper": 63,
+            "berserker": 54,
+            "trickster": 21,
+            "tempête/aucun": 35
+          },
+          "hitsTakenBy": {
+            "sniper": 970,
+            "berserker": 878,
+            "trickster": 502
+          }
+        },
+        "sniper": {
+          "name": "Sniper",
+          "color": "#00f0ff",
+          "version": "gen2",
+          "winrate": 0.22,
+          "avgPlacement": 2.656,
+          "accuracy": 0.16130268199233716,
+          "avgDamage": 67.36,
+          "avgDamageTaken": 88.49736099999998,
+          "avgKills": 0.438,
+          "avgDodges": 15.996,
+          "avgSurvival": 1415.662,
+          "avgShots": 41.76,
+          "bankHits": 646,
+          "selfHits": 45,
+          "avgStormDamage": 10.637360999999999,
+          "stormDeaths": 22,
+          "avgDashes": 4.344,
+          "errors": 0,
+          "killedBy": {
+            "trickster": 47,
+            "warlord": 186,
+            "berserker": 132,
+            "tempête/aucun": 25
+          },
+          "hitsTakenBy": {
+            "trickster": 619,
+            "berserker": 1477,
+            "warlord": 1752
+          }
+        },
+        "trickster": {
+          "name": "Trickster",
+          "color": "#b44dff",
+          "version": "gen1",
+          "winrate": 0.076,
+          "avgPlacement": 2.814,
+          "accuracy": 0.107430057302451,
+          "avgDamage": 44.62,
+          "avgDamageTaken": 97.7703903333334,
+          "avgKills": 0.318,
+          "avgDodges": 15.75,
+          "avgSurvival": 1369.132,
+          "avgShots": 41.534,
+          "bankHits": 1841,
+          "selfHits": 1926,
+          "avgStormDamage": 4.910390333333334,
+          "stormDeaths": 14,
+          "avgDashes": 5.078,
+          "errors": 0,
+          "killedBy": {
+            "sniper": 45,
+            "berserker": 108,
+            "warlord": 152,
+            "tempête/aucun": 157
+          },
+          "hitsTakenBy": {
+            "berserker": 895,
+            "sniper": 624,
+            "warlord": 1198
+          }
+        },
+        "berserker": {
+          "name": "Berserker",
+          "color": "#ff2a6d",
+          "version": "gen3",
+          "winrate": 0.04,
+          "avgPlacement": 2.976,
+          "accuracy": 0.1921485160222301,
+          "avgDamage": 65,
+          "avgDamageTaken": 98.85309733333334,
+          "avgKills": 0.588,
+          "avgDodges": 14.454,
+          "avgSurvival": 1278.002,
+          "avgShots": 33.828,
+          "bankHits": 942,
+          "selfHits": 212,
+          "avgStormDamage": 0.47309733333333337,
+          "stormDeaths": 4,
+          "avgDashes": 4.456,
+          "errors": 0,
+          "killedBy": {
+            "warlord": 263,
+            "sniper": 111,
+            "trickster": 91,
+            "tempête/aucun": 15
+          },
+          "hitsTakenBy": {
+            "trickster": 1110,
+            "warlord": 1823,
+            "sniper": 1774
+          }
+        }
+      },
+      "bestMatch": {
+        "seed": 300238,
+        "file": "replays/gen_3.json",
+        "ticks": 2067,
+        "winner": "trickster",
+        "excitement": 358.7
+      },
+      "notes": {
+        "analysis": "Le <b>Warlord Gen 3</b> domine (14 % → 65 %) : meilleur placement (1,54), le moins de dégâts reçus (58/match), le plus de kills (1,2/match) — le tiers-partying fonctionne enfin (263 éliminations du Berserker, 186 du Sniper). Le <b>Berserker Gen 3</b> progresse en continu (0,4 → 2,4 → 4 %, survie 5,6 → 12,5 → 21 s, placement 3,66 → 2,98) : il n'est plus le premier à mourir, mais son archétype corps-à-corps reste puni par trois IA qui tirent à distance. Le <b>Trickster Gen 1</b>, jamais modifié, s'effondre (49 % → 7,6 %) : 1926 auto-impacts, 157 morts sans tueur (ses propres rebonds ou la tempête), précision 10,7 %. Prochaine cible logique pour une Gen 4 : le Trickster (n'accepter une bande que si le retour de la balle ne croise pas sa propre trajectoire) et le Berserker.",
+        "changes": [
+          "Trickster Gen 4 'Ray-Tracer' : simulation balistique complète de chaque angle candidat (direct + 4 bandes + perturbations) contre la position future de la cible",
+          "Trickster Gen 4 : refus de tout tir dont le rebond repasse près de lui ; gâchette vérifiée sur l'angle réel du canon ; planificateur qui cherche les positions hors lignes de vue et tire par la bande depuis la couverture",
+          "Berserker Gen 4 : coût de bord dans le planificateur (70 % des impacts reçus près d'un mur), gâchette vérifiée par simulation balistique, tourelle furtive en traque",
+          "Berserker Gen 4, testé puis rejeté : traque lointaine à 620 px, 'vendetta' contre le dernier agresseur (classement moyen 3,21 → 3,40)"
+        ]
+      }
+    },
+    {
+      "gen": 4,
+      "matches": 500,
+      "date": "2026-11-04T16:18:05.191Z",
+      "simSeconds": 24.3,
+      "avgTicks": 2009.064,
+      "endReasons": {
+        "last-standing": 497,
+        "draw": 3
+      },
+      "draws": 3,
+      "ranking": [
+        "trickster",
+        "warlord",
+        "sniper",
+        "berserker"
+      ],
+      "stats": {
+        "trickster": {
+          "name": "Trickster",
+          "color": "#b44dff",
+          "version": "gen4",
+          "winrate": 0.638,
+          "avgPlacement": 1.594,
+          "accuracy": 0.12493772685218134,
+          "avgDamage": 70.22,
+          "avgDamageTaken": 65.92911566666668,
+          "avgKills": 0.82,
+          "avgDodges": 9.168,
+          "avgSurvival": 1928.19,
+          "avgShots": 56.204,
+          "bankHits": 1092,
+          "selfHits": 54,
+          "avgStormDamage": 29.189115666666652,
+          "stormDeaths": 40,
+          "avgDashes": 2.984,
+          "errors": 0,
+          "killedBy": {
+            "sniper": 47,
+            "tempête/aucun": 42,
+            "berserker": 37,
+            "warlord": 55
+          },
+          "hitsTakenBy": {
+            "berserker": 403,
+            "sniper": 706,
+            "warlord": 674
+          }
+        },
+        "warlord": {
+          "name": "Warlord",
+          "color": "#ffc400",
+          "version": "gen3",
+          "winrate": 0.22,
+          "avgPlacement": 2.23,
+          "accuracy": 0.20338821737889026,
+          "avgDamage": 85.48,
+          "avgDamageTaken": 90.10098933333335,
+          "avgKills": 0.906,
+          "avgDodges": 17.412,
+          "avgSurvival": 1869.062,
+          "avgShots": 42.028,
+          "bankHits": 980,
+          "selfHits": 86,
+          "avgStormDamage": 24.780989333333327,
+          "stormDeaths": 105,
+          "avgDashes": 4.666,
+          "errors": 0,
+          "killedBy": {
+            "sniper": 75,
+            "berserker": 70,
+            "trickster": 137,
+            "tempête/aucun": 108
+          },
+          "hitsTakenBy": {
+            "sniper": 1048,
+            "trickster": 1093,
+            "berserker": 1039
+          }
+        },
+        "sniper": {
+          "name": "Sniper",
+          "color": "#00f0ff",
+          "version": "gen2",
+          "winrate": 0.132,
+          "avgPlacement": 2.918,
+          "accuracy": 0.1500952380952381,
+          "avgDamage": 63.04,
+          "avgDamageTaken": 94.29985566666669,
+          "avgKills": 0.43,
+          "avgDodges": 17.05,
+          "avgSurvival": 1508.968,
+          "avgShots": 42,
+          "bankHits": 528,
+          "selfHits": 36,
+          "avgStormDamage": 15.15985566666667,
+          "stormDeaths": 22,
+          "avgDashes": 4.618,
+          "errors": 0,
+          "killedBy": {
+            "trickster": 127,
+            "warlord": 151,
+            "berserker": 134,
+            "tempête/aucun": 22
+          },
+          "hitsTakenBy": {
+            "berserker": 1337,
+            "trickster": 968,
+            "warlord": 1616
+          }
+        },
+        "berserker": {
+          "name": "Berserker",
+          "color": "#ff2a6d",
+          "version": "gen4",
+          "winrate": 0.004,
+          "avgPlacement": 3.244,
+          "accuracy": 0.22290847838293093,
+          "avgDamage": 55.58,
+          "avgDamageTaken": 100.02825366666667,
+          "avgKills": 0.482,
+          "avgDodges": 14.79,
+          "avgSurvival": 1469.104,
+          "avgShots": 24.934,
+          "bankHits": 762,
+          "selfHits": 123,
+          "avgStormDamage": 0.9282536666666668,
+          "stormDeaths": 5,
+          "avgDashes": 4.508,
+          "errors": 0,
+          "killedBy": {
+            "warlord": 247,
+            "sniper": 93,
+            "trickster": 146,
+            "tempête/aucun": 12
+          },
+          "hitsTakenBy": {
+            "sniper": 1398,
+            "trickster": 1450,
+            "warlord": 1984
+          }
+        }
+      },
+      "bestMatch": {
+        "seed": 400075,
+        "file": "replays/gen_4.json",
+        "ticks": 2098,
+        "winner": "trickster",
+        "excitement": 339.3
+      },
+      "notes": {
+        "analysis": "Le <b>Trickster Gen 4</b> reprend le trône (7,6 % → 63,8 %) : auto-impacts divisés par 35 (1926 → 54), le moins de dégâts reçus (66/match), la meilleure survie (32 s). Il gagne surtout en restant à couvert et en survivant jusqu'à la tempête (29 dégâts de tempête/match) ; sa précision brute reste basse (12,5 %) car il tire beaucoup de bandes longues. Le <b>Warlord Gen 3</b> retombe à 22 % et le <b>Sniper Gen 2</b> à 13 %. Le <b>Berserker Gen 4</b> plafonne à 0,4 % : mesuré contre le Berserker Gen 3 sur les mêmes 200 seeds, il améliore son classement moyen (3,52 → 3,21) et sa survie (20,8 → 24,3 s), mais il meurt encore presque toujours avant la tempête (25 s). Avec des armes identiques pour tous, l'archétype corps-à-corps est structurellement désavantagé : il faudrait sans doute un avantage de gameplay propre (blindage frontal, dégâts au contact) plutôt qu'un meilleur algorithme.",
+        "changes": [
+          "Moteur : système de traits de châssis déclarés par chaque bot, bornés par le moteur (blindage frontal ≤ 50 %, éperon ≤ 8 + bonus de vitesse, durée de vie des balles ≥ 60 ticks). Sans traits, le moteur reproduit la Gen 4 au tick près",
+          "Berserker Gen 5 'Juggernaut' : blindage frontal 50 %, éperon 6 (max 20 à pleine vitesse), contrepartie canon court (balles de 70 ticks, ~560 px)",
+          "Berserker Gen 5 : marche avant forcée en engagement, charge de contact sous 160 px, dash-bélier, avant blindé tourné vers la menace à l'arrêt",
+          "Testé puis rejeté : engagement précoce dès qu'un seul tank surveille (classement 2,92 → 3,19)"
+        ]
+      }
+    },
+    {
+      "gen": 5,
+      "matches": 500,
+      "date": "2026-11-04T16:22:36.616Z",
+      "simSeconds": 30.254,
+      "avgTicks": 1991.47,
+      "endReasons": {
+        "last-standing": 496,
+        "draw": 4
+      },
+      "draws": 4,
+      "ranking": [
+        "trickster",
+        "warlord",
+        "sniper",
+        "berserker"
+      ],
+      "stats": {
+        "trickster": {
+          "name": "Trickster",
+          "color": "#b44dff",
+          "version": "gen4",
+          "winrate": 0.576,
+          "avgPlacement": 1.752,
+          "accuracy": 0.13959063908967295,
+          "avgDamage": 67.82,
+          "avgDamageTaken": 66.84357871413873,
+          "avgKills": 0.762,
+          "avgDodges": 9.042,
+          "avgSurvival": 1878.64,
+          "avgShots": 55.892,
+          "bankHits": 1165,
+          "selfHits": 65,
+          "avgStormDamage": 24.368642666666656,
+          "stormDeaths": 49,
+          "avgDashes": 2.954,
+          "avgRams": 0,
+          "avgArmorBlocked": 0,
+          "errors": 0,
+          "killedBy": {
+            "tempête/aucun": 50,
+            "berserker": 75,
+            "warlord": 44,
+            "sniper": 43
+          },
+          "hitsTakenBy": {
+            "berserker": 678,
+            "sniper": 732,
+            "warlord": 590
+          }
+        },
+        "warlord": {
+          "name": "Warlord",
+          "color": "#ffc400",
+          "version": "gen3",
+          "winrate": 0.198,
+          "avgPlacement": 2.49,
+          "accuracy": 0.22937136315940093,
+          "avgDamage": 76.98,
+          "avgDamageTaken": 90.41069643403254,
+          "avgKills": 0.696,
+          "avgDodges": 16.348,
+          "avgSurvival": 1790.994,
+          "avgShots": 41.932,
+          "bankHits": 916,
+          "selfHits": 88,
+          "avgStormDamage": 19.085817333333324,
+          "stormDeaths": 71,
+          "avgDashes": 4.396,
+          "avgRams": 0,
+          "avgArmorBlocked": 0,
+          "errors": 0,
+          "killedBy": {
+            "berserker": 169,
+            "trickster": 110,
+            "tempête/aucun": 72,
+            "sniper": 50
+          },
+          "hitsTakenBy": {
+            "berserker": 1471,
+            "sniper": 935,
+            "trickster": 974
+          }
+        },
+        "sniper": {
+          "name": "Sniper",
+          "color": "#00f0ff",
+          "version": "gen2",
+          "winrate": 0.178,
+          "avgPlacement": 2.916,
+          "accuracy": 0.1713461902060881,
+          "avgDamage": 59.82,
+          "avgDamageTaken": 93.12950582677054,
+          "avgKills": 0.396,
+          "avgDodges": 16.57,
+          "avgSurvival": 1526.754,
+          "avgShots": 42.312,
+          "bankHits": 568,
+          "selfHits": 33,
+          "avgStormDamage": 16.608960666666665,
+          "stormDeaths": 18,
+          "avgDashes": 4.394,
+          "avgRams": 0,
+          "avgArmorBlocked": 0,
+          "errors": 0,
+          "killedBy": {
+            "trickster": 101,
+            "warlord": 106,
+            "berserker": 186,
+            "tempête/aucun": 18
+          },
+          "hitsTakenBy": {
+            "trickster": 926,
+            "warlord": 1397,
+            "berserker": 1377
+          }
+        },
+        "berserker": {
+          "name": "Berserker",
+          "color": "#ff2a6d",
+          "version": "gen5",
+          "winrate": 0.04,
+          "avgPlacement": 2.83,
+          "accuracy": 0.2337886221986474,
+          "avgDamage": 75.52036030827495,
+          "avgDamageTaken": 99.90486233333336,
+          "avgKills": 0.86,
+          "avgDodges": 17.306,
+          "avgSurvival": 1680.388,
+          "avgShots": 30.164,
+          "bankHits": 537,
+          "selfHits": 51,
+          "avgStormDamage": 5.634862333333333,
+          "stormDeaths": 4,
+          "avgDashes": 5.236,
+          "avgRams": 0.406,
+          "avgArmorBlocked": 42.37,
+          "errors": 0,
+          "killedBy": {
+            "warlord": 198,
+            "trickster": 170,
+            "sniper": 105,
+            "tempête/aucun": 7
+          },
+          "hitsTakenBy": {
+            "trickster": 2001,
+            "warlord": 2822,
+            "sniper": 1958
+          }
+        }
+      },
+      "bestMatch": {
+        "seed": 500397,
+        "file": "replays/gen_5.json",
+        "ticks": 2027,
+        "winner": "trickster",
+        "excitement": 379.1
+      },
+      "notes": {
+        "analysis": "Première génération avec des <b>traits de châssis</b> (seul le Berserker en utilise). Le <b>Berserker Juggernaut</b> passe de 0,4 % à 4,0 % et surtout de la 4e à la 3e place au classement moyen (3,24 → 2,83, devant le Sniper à 2,92). Il est 2e en kills (0,86/match) et le premier tueur du Sniper (186 éliminations). Son blindage absorbe 42 PV par match, et il éperonne 0,41 fois par match. Il meurt encore dans 99 % des matchs (99,9 dégâts reçus/match) : il pèse sur le match, mais le gagne rarement. Le <b>Trickster Gen 4</b> reste en tête (57,6 %), légèrement freiné. Attention : la comparaison avec les Gen 1 à 4 n'est pas à règles constantes, puisque ce sont les règles du Berserker qui ont changé, pas seulement son code.",
+        "changes": []
+      }
+    }
+  ],
+  "updated": "2026-11-04T16:22:36.617Z"
+}
